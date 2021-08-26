@@ -1,16 +1,16 @@
 import axios from 'axios';
 import {
-    GET_CHATS,
+    GET_CHAT_LIST,
     AFTER_POST_MESSAGE
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
-export function getChats(){
-    const request = axios.get(`${USER_SERVER}/getChats`)
+export function getChatList(){
+    const request = axios.get(`${USER_SERVER}/getchatlist`)
         .then(response => response.data);
     
     return {
-        type: GET_CHATS,
+        type: GET_CHAT_LIST,
         payload: request
     }
 }

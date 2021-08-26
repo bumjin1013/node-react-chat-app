@@ -115,14 +115,15 @@ router.get("/deletefriends", auth, (req, res) => {
     }
 })
 
-router.get("/getchats", (req, res) => {
-    User.find()
-        .populate("sender")
-        .exec((err, chats) => {
-            if(err) return res.status(400).send(err);
-            res.status(200).send(chats)
-        })
-});
+router.get("/getchatlist", auth, (req, res) => {
+    User.findOne({ _id: req.user._id })
+        .exec((err, doc) => {
+            let chatList = doc.chats
+            if (err) return res.status(400).json({ success: false, err })
+            res.status(200).json({ success: true, chatList })
+        });
+})
+
 
 
 

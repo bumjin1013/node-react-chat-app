@@ -80,7 +80,8 @@ io.on("connection", (socket) => {
         "$push": {
           "chats": {
             "socketId": data.room,
-            "opponent": data.friendsId
+            "receiverId": data.friendsId,
+            "receiverName": data.friendsName
           }
         }
       },{ new: true },
@@ -94,7 +95,8 @@ io.on("connection", (socket) => {
         "$push": {
           "chats": {
             "socketId": data.room,
-            "opponent": data.userId
+            "receiverId": data.userId,
+            "receiverName": data.userName
           }
         }
       },{ new: true },
