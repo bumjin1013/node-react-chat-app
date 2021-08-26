@@ -1,10 +1,12 @@
 import React, { useState }  from 'react'
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { Input, Modal, Button, Avatar } from 'antd';
-
+import { addFriends } from '../../../../_actions/friends_actions';
 const { Search } = Input;
 function SearchFriends() {
 
+    const dispatch = useDispatch();
     const [FriendsName, setFriendsName] = useState("");
     const [IsVisible, setIsVisible] = useState(false);
     const [SearchList, setSearchList] = useState();
@@ -40,11 +42,9 @@ function SearchFriends() {
             })    
     }
 
-    
-
     const renderSearchList = SearchList && SearchList.map((list, index) => {
 
-        const addFriends = () => {
+        const addFriendsButton = () => {
     
             let body = {
                 name: list.name,
@@ -52,15 +52,8 @@ function SearchFriends() {
             }
 
             console.log(body);
-    
-            axios.post('/api/users/addfriends', body)
-                .then(response => {
-                    if(response.data.success){
-                        alert('친구 추가 성공');
-                    } else {
-                        alert('검색에 실패하였습니다.');
-                    }
-                })    
+            
+            dispatch(addFriends(body));
         }
 
         if(list.length != null){
@@ -69,20 +62,16 @@ function SearchFriends() {
             )
         } else {
             return (
-                <div>
+                <div key={index}>
                     <Avatar size="large" icon="user" />
                     &nbsp;&nbsp;&nbsp;{list.name}
-                    <Button icon="plus" style={{float: 'right'}} onClick={addFriends}/>
+                    <Button icon="plus" style={{float: 'right'}} onClick={addFriendsButton}/>
                 </div>
                 
             )
         }    
     })
-    
 
-    console.log(SearchList);
-    
-    
 
     return (
         <div>

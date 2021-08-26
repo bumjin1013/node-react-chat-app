@@ -1,25 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'
 import { Avatar, Button } from 'antd';
-import { getFriends } from '../../../../_actions/user_actions';
+import { withRouter } from "react-router-dom";
 
 function FriendsList(props) {
-    
-    const dispatch = useDispatch();
-    const [Data, setData] = useState();
-    
-    useEffect(() => {
-        dispatch(getFriends())    
-    }, [])
-    
 
-    return(
+    const deleteButton = () => {
+
+    }
+
+    const ChatButton = () => {
+        props.history.push({
+            pathname: "/chat",
+            state: { detail: props.data._id }
+        })
+    }
+
+    return (
         <div>
             <Avatar size="large" icon="user" />
-            &nbsp;&nbsp;&nbsp;{}
-            <Button icon="message" style={{float: 'right'}} />
+            {props.data.name}
+            <Button icon="delete" style={{float: 'right'}} onClick={deleteButton}/>
+            <Button icon="message" style={{float: 'right'}} onClick={ChatButton}/>
+            <br />
+            <br />
         </div>
     )
 }
 
-export default FriendsList
+export default withRouter(FriendsList)

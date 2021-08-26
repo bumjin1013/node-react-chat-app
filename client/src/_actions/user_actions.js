@@ -4,6 +4,8 @@ import {
     REGISTER_USER,
     AUTH_USER,
     LOGOUT_USER,
+    ADD_FRIENDS,
+    DELETE_FRIENDS,
     GET_FRIENDS
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
@@ -48,12 +50,36 @@ export function logoutUser(){
     }
 }
 
-export function getFriends(){
-    const request = axios.get(`${USER_SERVER}/getfriends`)
-    .then(response => response.data);
+export function getFriends(body){
+    
+    const request = axios.get('/api/users/getfriends')
+        .then(response => response.data)
 
     return {
         type: GET_FRIENDS,
         payload: request
     }
 }
+
+export function addFriends(body){
+    
+    const request = axios.post('/api/users/addfriends', body)
+        .then(response => response.data)
+
+    return {
+        type: ADD_FRIENDS,
+        payload: request
+    }
+}
+
+export function deleteFriends(body){
+    
+    const request = axios.post('/api/users/deletefriends', body)
+        .then(response => response.data)
+
+    return {
+        type: DELETE_FRIENDS,
+        payload: request
+    }
+}
+

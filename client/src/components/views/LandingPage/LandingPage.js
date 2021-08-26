@@ -1,16 +1,30 @@
-import FriendsList from './Section/FriendsList';
 import SearchFriends from './Section/SearchFriends';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends } from '../../../_actions/user_actions';
+import { getFriends, deleteFriends } from '../../../_actions/friends_actions';
+import FriendsList from './Section/FriendsList';
 function LandingPage(props) {
 
-    console.log(props.user.userData);
-    return (
-        <div style={{ margin: '50px'}}>
+    const dispatch = useDispatch();
+    const friends = useSelector(state => state.friends)
+    useEffect(() => {
+        dispatch(getFriends())
+    }, [])
 
+    console.log(friends.friends);
+    const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
+
+        return(
+            <FriendsList data={friends} key={index}/>
+        )
+    })
+
+    return (
+        <div style={{ margin: '20px'}}>
             <SearchFriends />
-            <FriendsList />
+            <br />
+            { renderFriends }
+          
         </div>
     )
 }

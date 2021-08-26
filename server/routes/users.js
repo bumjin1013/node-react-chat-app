@@ -17,8 +17,7 @@ router.get("/auth", auth, (req, res) => {
         name: req.user.name,
         lastname: req.user.lastname,
         role: req.user.role,
-        image: req.user.image,
-        friends: req.user.friends
+        image: req.user.image
     });
 });
 
@@ -75,14 +74,19 @@ router.post("/search", auth, (req, res) => {
     .exec((err, search) => {
         if (err) return res.status(400).json({ success: false, err })
         res.status(200).json({ success: true, search })
-        console.log(search);
     });
 })
 
+router.get("/getfriends", auth, (req, res) => {
+    User.findOne({ _id: req.user._id })
+        .exec((err, doc) => {
+            let friendsList = doc.friends
+            if (err) return res.status(400).json({ success: false, err })
+            res.status(200).json({ success: true, friendsList })
+        });
+})
+
 router.post("/addfriends", auth, (req, res) => {
-    
-    console.log(req.body); 
-    console.log(req.user._id);
     User.findOneAndUpdate({ _id: req.user._id }, {
         "$push": {
             "friends": {
@@ -91,19 +95,27 @@ router.post("/addfriends", auth, (req, res) => {
             }
         }
     },{ new: true },
-    (err, friendsList) => {
+    (err, doc) => {
+        let friends = doc.friends[doc.friends.length-1]
+        console.log(friends);
         if (err) return res.status(400).json({ success: false, err })
-        res.status(200).send({ success: true, friendsList })
+        res.status(200).send({ success: true, friends })
     })
 })
 
-router.get("/getfriends", auth, (req, res) => {
-    User.find({ _id: req.user._id }),
+
+router.get("/deletefriends", auth, (req, res) => {
+    User.find({ _id: req.user._id },{
+        "pull": {
+            "friends.$.email": req.body.email
+    }}),
     (err, friendsList) => {
         if (err) return res.status(400).json({ success: false, err })
         res.status(200).send({ success: true, friendsList })
     }
 })
+
+
 
 
 

@@ -2,8 +2,7 @@ import {
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER,
-    LOGOUT_USER,
-    GET_FRIENDS
+    LOGOUT_USER
 } from '../_actions/types';
  
 
@@ -17,8 +16,6 @@ export default function(state={},action){
             return {...state, userData: action.payload }
         case LOGOUT_USER:
             return {...state }
-        case GET_FRIENDS:
-            return {...state, friendsList: action.payload }
         default:
             return state;
     }
