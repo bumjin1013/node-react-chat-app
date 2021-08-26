@@ -7,6 +7,8 @@ function LandingPage(props) {
 
     const dispatch = useDispatch();
     const friends = useSelector(state => state.friends)
+    const user = useSelector(state => state.user)
+
     useEffect(() => {
         dispatch(getFriends())
     }, [])
@@ -15,7 +17,7 @@ function LandingPage(props) {
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
 
         return(
-            <FriendsList data={friends} key={index}/>
+            <FriendsList data={friends} userId={user.userData._id} key={index}/>
         )
     })
 

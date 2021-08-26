@@ -13,7 +13,9 @@ const io = require("socket.io")(server, {
     credentials: true
   }
 });
+const { User } = require("./models/User");
 
+const { auth } = require("./middleware/auth");
 const config = require("./config/key");
 
 // const mongoose = require("mongoose");
@@ -62,6 +64,48 @@ if (process.env.NODE_ENV === "production") {
 }
 
 io.on("connection", (socket) => {
+  console.log("socket conneection event", socket.id, "client connected");
+
+  //대화하기를 눌렀을 때, socket = null => socket = 방이름 으로 변경시켜줌.
+  socket.on("joinRoom", data => {
+    console.log('data', data);
+    socket.join(data.room);
+    connect.then(db => {
+
+      //대화 하기를 누른 본인
+      User.findOneAndUpdate({ _id: data.userId, friends: { $elemMatch: { id: data.friendsId }}}, {
+        "$set": {
+          "friends.$.socket": data.room
+        },
+        "$push": {
+          "chats": {
+            "socketId": data.room,
+            "opponent": data.friendsId
+          }
+        }
+      },{ new: true },
+        (err, doc) => {
+          if(err) console.log(err)
+          console.log(doc);
+        }
+      ),
+      //대화 상대
+      User.findOneAndUpdate({ _id: data.friendsId }, {
+        "$push": {
+          "chats": {
+            "socketId": data.room,
+            "opponent": data.userId
+          }
+        }
+      },{ new: true },
+      (err, doc) => {
+        if(err) console.log(err)
+        console.log(doc);
+      }
+    )    
+  })
+  })
+
   socket.on("Input Chat Message", msg => {
     connect.then(db => {
       try {

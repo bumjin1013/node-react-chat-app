@@ -91,7 +91,7 @@ router.post("/addfriends", auth, (req, res) => {
         "$push": {
             "friends": {
                 "name": req.body.name,
-                "email": req.body.email
+                "id": req.body._id
             }
         }
     },{ new: true },
@@ -115,7 +115,14 @@ router.get("/deletefriends", auth, (req, res) => {
     }
 })
 
-
+router.get("/getchats", (req, res) => {
+    User.find()
+        .populate("sender")
+        .exec((err, chats) => {
+            if(err) return res.status(400).send(err);
+            res.status(200).send(chats)
+        })
+});
 
 
 

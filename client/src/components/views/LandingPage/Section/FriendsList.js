@@ -1,18 +1,31 @@
 import React from 'react'
 import { Avatar, Button } from 'antd';
 import { withRouter } from "react-router-dom";
+import { io } from 'socket.io-client';
 
 function FriendsList(props) {
 
+    const socket = io("http://localhost:5000"); //connet client-to-server
     const deleteButton = () => {
 
     }
 
+    console.log(props.data);
+
     const ChatButton = () => {
         props.history.push({
             pathname: "/chat",
-            state: { detail: props.data._id }
+            state: socket.id
         })
+        
+       //대화 누르면 서버에 userId, friendsId, room number 를 보냄.
+        socket.emit("joinRoom", {
+            userId: props.userId,
+            friendsId: props.data.id,
+            room: socket.id
+        });
+    
+
     }
 
     return (

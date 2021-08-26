@@ -48,11 +48,9 @@ function SearchFriends() {
     
             let body = {
                 name: list.name,
-                email: list.email
+                _id: list._id
             }
-
-            console.log(body);
-            
+        
             dispatch(addFriends(body));
         }
 

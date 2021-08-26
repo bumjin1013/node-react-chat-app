@@ -1,12 +1,10 @@
 import React from 'react'
 import { Form, Icon, Input, Button, Row, Col } from 'antd';
 function ChatPage(props) {
-    console.log('id', props.location.state.detail)
 
     const submitChatMessage = (event) => {
         event.preventDefault();
 
-        
     }
 
 

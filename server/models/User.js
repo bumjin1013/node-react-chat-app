@@ -35,9 +35,13 @@ const userSchema = mongoose.Schema({
     },
     friends: [{
         name: { type: String },
-        email: { type: String },
         id: { type: String },
-        chats: []
+        socket: { type: String, default: null}
+    }],
+    chats: [{
+        socketId: { type: String },
+        opponent: { type: String },
+        chat: []
     }]
 })
 
