@@ -7,5 +7,6 @@ export const ADD_FRIENDS = 'add_friends';
 export const DELETE_FRIENDS = 'delete_friends';
 export const GET_FRIENDS = 'get_friends';
 
+export const GET_CHATS = 'get_chats';
 export const GET_CHAT_LIST = 'get_chat_list';
 export const AFTER_POST_MESSAGE = 'after_post_message';

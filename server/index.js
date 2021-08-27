@@ -70,63 +70,115 @@ io.on("connection", (socket) => {
   socket.on("joinRoom", data => {
     console.log('data', data);
     socket.join(data.room);
-    connect.then(db => {
 
-      //대화 하기를 누른 본인
-      User.findOneAndUpdate({ _id: data.userId, friends: { $elemMatch: { id: data.friendsId }}}, {
-        "$set": {
-          "friends.$.socket": data.room
-        },
-        "$push": {
-          "chats": {
-            "socketId": data.room,
-            "receiverId": data.friendsId,
-            "receiverName": data.friendsName
-          }
-        }
-      },{ new: true },
-        (err, doc) => {
-          if(err) console.log(err)
-          console.log(doc);
-        }
-      ),
-      //대화 상대
-      User.findOneAndUpdate({ _id: data.friendsId }, {
-        "$push": {
-          "chats": {
-            "socketId": data.room,
-            "receiverId": data.userId,
-            "receiverName": data.userName
-          }
-        }
-      },{ new: true },
+    //유저 채팅방에 이미 상대방과의 채팅내역이 존재하는지 확인 후 없으면 추가
+    User.findOne({ _id: data.userId, chats: { $elemMatch: { receiverId: data.friendsId }}},
       (err, doc) => {
         if(err) console.log(err)
-        console.log(doc);
-      }
-    )    
+        
+        if(doc == null) {
+          //채팅방이 없을경우 DB에 채팅방 저장
+          connect.then(db => {
+
+          //대화 하기를 누른 본인
+          User.findOneAndUpdate({ _id: data.userId, friends: { $elemMatch: { id: data.friendsId }}}, {
+            "$set": {
+              "friends.$.socket": data.room
+            },
+            "$push": {
+              "chats": {
+                "socketId": data.room,
+                "receiverId": data.friendsId,
+                "receiverName": data.friendsName
+              }
+            }
+          },{ new: true },
+            (err, doc) => {
+              if(err) console.log(err)
+              console.log(doc);
+            }
+          ),
+          //대화 상대
+          User.findOneAndUpdate({ _id: data.friendsId }, {
+            "$push": {
+              "chats": {
+                "socketId": data.room,
+                "receiverId": data.userId,
+                "receiverName": data.userName
+              }
+            }
+          },{ new: true },
+          (err, doc) => {
+            if(err) console.log(err)
+            console.log(doc);
+          }
+        )    
+      })
+    }
   })
+   
   })
 
   socket.on("Input Chat Message", msg => {
     connect.then(db => {
-      try {
-        let chat = new Chat({ message: msg.chatMessage, sender:msg.userId, type: msg.type })
+      //발신자 DB에 저장
+      User.findOneAndUpdate({_id: msg.userId, chats: {$elemMatch: {socketId: msg.socketId}}},{
+        "$push": {
+          "chats.$.chat": {
+            "senderId": msg.userId,
+            "senderName": msg.userName,
+            "message": msg.chatMessage,
+            "time": msg.nowTime,
+            "type": msg.type
+          }
+            }},{ new: true },
+            (err, doc) => {
+                if(err) console.log(err)
+            }
+      ),
+      //수신자 DB에 저장
+      User.findOneAndUpdate({_id: msg.receiverId, chats: {$elemMatch: {socketId: msg.socketId}}},{
+        "$push": {
+          "chats.$.chat": {
+            "senderId": msg.userId,
+            "senderName": msg.userName,
+            "message": msg.chatMessage,
+            "time": msg.nowTime,
+            "type": msg.type
+          }
+            }},{ new: true },
+            (err, doc) => {
+                if(err) console.log(err)
+            }
+      );   
+    }),
 
-        chat.save((err, doc) => {
-          if(err) return res.json({ success: false, err })
+    setTimeout( () => {
+    User.findOne({_id: msg.userId, chats: {$elemMatch: {socketId: msg.socketId}}},{
+      "_id": false,
+      "chats": {
+          $elemMatch:{
+              "socketId": msg.socketId
+          }
+        }
+      })
+      .exec((err, doc) => {
+        
+        let ChatList = doc.chats[0].chat;
+        let lastChat;
+        if(ChatList.length < 1){
+          lastChat = ChatList[0]
+        } else {
+          lastChat = ChatList[ChatList.length - 1];
+          console.log(lastChat);
+        }
+        
 
-          Chat.find({ "_id": doc._id })
-          .populate("sender")
-          .exec((err, doc) => {
-            return io.emit("Output Chat Message", doc)
-          })
-        })
-      } catch (error) {
-        console.error(error);
-
-      }
-    })
+          if (err) console.log(err);
+          return io.emit("Output Chat Message", lastChat)
+          
+      });
+    }, 10)
   })
 })
 

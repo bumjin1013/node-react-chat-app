@@ -42,7 +42,13 @@ const userSchema = mongoose.Schema({
         socketId: { type: String },
         receiverId: { type: String },
         receiverName: { type: String },
-        chat: []
+        chat: [{ 
+            senderId: { type: String },
+            senderName: { type: String },
+            message: { type: String },
+            time: { type: String },
+            type: { type: String }
+         }],
     }]
 })
 

@@ -4,16 +4,20 @@ import { withRouter } from "react-router-dom";
 
 function ChatList(props) {
     
+    console.log(props.userData);
     const enterChatRoom = () => {
         props.history.push({
-            pathname: "/chat"
+            pathname: "/chat",
+            state: {chatData: props.chatData, userData: props.userData.userData }
         })
+
+        props.socket.emit('join', props.chatData.socket);
     }
 
     return (
         <div onClick={enterChatRoom}>
             <Avatar size="large" icon="user" />
-            {props.data.receiverName} <p></p>
+            {props.chatData.receiverName} <p></p>
             내용
        
             <br />

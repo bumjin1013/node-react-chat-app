@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Input, Modal, Button, Avatar } from 'antd';
 import { addFriends } from '../../../../_actions/friends_actions';
 const { Search } = Input;
-function SearchFriends() {
+function SearchFriends(props) {
 
     const dispatch = useDispatch();
     const [FriendsName, setFriendsName] = useState("");
@@ -45,13 +45,19 @@ function SearchFriends() {
     const renderSearchList = SearchList && SearchList.map((list, index) => {
 
         const addFriendsButton = () => {
-    
-            let body = {
-                name: list.name,
-                _id: list._id
+            
+            //본인 아이디 검색 후 추가 버튼 클릭시 알림
+            if(list._id == props.userData._id){
+                alert('본인은 추가할 수 없습니다.');
+            } else {
+                let body = {
+                    name: list.name,
+                    _id: list._id
+                }
+            
+                dispatch(addFriends(body));
             }
-        
-            dispatch(addFriends(body));
+            
         }
 
         if(list.length != null){

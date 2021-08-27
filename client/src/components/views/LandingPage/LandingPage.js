@@ -38,7 +38,7 @@ function LandingPage(props) {
     const renderChatList = chat.chatData && chat.chatData.chatList.map((chats, index) => {
 
         return(
-            <ChatList data={chats} key={index}/>
+            <ChatList chatData={chats} userData={user} socket={socket} key={index}/>
         )
     })
 
@@ -46,7 +46,7 @@ function LandingPage(props) {
         <div style={{ margin: '20px'}}>
             <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab={<Icon type='user' style={{ fontSize: '20px'}}/>} key="1">
-                    <SearchFriends />
+                    <SearchFriends userData={user.userData}/>
                         <br />
                     { renderFriends }
                 </TabPane>
