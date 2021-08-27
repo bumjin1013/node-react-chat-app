@@ -1,47 +1,47 @@
 import moment from 'moment'
 import React from 'react'
-import { Comment, Avatar, Tooltip } from 'antd';
+import { Typography, Avatar, Tooltip } from 'antd';
+const { Text } = Typography;
 
 function ChatCard(props) {
 
+    if(props.senderId == props.userId){
         return (
-            <div style={{width: '50%'}}>
-                <Comment
-                    author={props.senderName}
-                    avatar={
-                        <Avatar
-                            alt={props.senderName}
-                    />
-                    }
-                content={
-                    props.message.substring(0, 8) === "uploads/" ?
-                    // this will be either video or image 
-    
-                    props.message.substring(props.message.length - 3, props.message.length) === 'mp4' ?
-                        <video
-                            style={{ maxWidth: '200px' }}
-                            src={`http://localhost:5000/${props.message}`} alt="video"
-                            type="video/mp4" controls
-                        />
-                        :
-                        <img
-                            style={{ maxWidth: '200px' }}
-                            src={`http://localhost:5000/${props.message}`}
-                            alt="img"
-                        />
-                    :
-                    <p>
-                        {props.message} 오른쪽
-                    </p>
-                }
-                datetime={
-                    <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                        <span>{moment().fromNow()}</span>
-                    </Tooltip>
-                }    
-                />        
+            <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'10px'}}>
+                
+                <div style={{width:'45px', float:'right', paddingLeft:'5px'}}>
+                    <Avatar size="large" icon="user" />
+                </div>
+                
+                <div style={{float: 'right'}}>
+                    <span style={{fontSize:'12px', paddingRight: '7px'}}>{moment(props.time).fromNow()} </span>
+                    {props.senderName}
+                    
+                    <br/>
+                    <span style={{float:'right'}}>{props.message}</span>
+                </div>          
+               
+
+                
+            </div>
+            
+        )
+    } else {
+        return (
+            <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'10px'}}>
+                <div style={{width:'45px', float:'left'}}>
+                    <Avatar size="large" icon="user"  />
+                </div>
+
+                <div>
+                    {props.senderName}
+                    <span style={{fontSize:'12px', paddingLeft: '7px'}}>{moment(props.time).fromNow()} </span>
+                    <br/>
+                    {props.message}
+                </div>          
             </div>
         )
+    }
 }
 
 export default ChatCard

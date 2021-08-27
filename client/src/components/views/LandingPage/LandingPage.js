@@ -43,7 +43,7 @@ function LandingPage(props) {
     })
 
     return (
-        <div style={{ margin: '20px'}}>
+        <div style={{ margin: '20px', marginTop:'0'}}>
             <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab={<Icon type='user' style={{ fontSize: '20px'}}/>} key="1">
                     <SearchFriends userData={user.userData}/>
