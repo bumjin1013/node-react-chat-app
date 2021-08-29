@@ -26,10 +26,10 @@ function ChatList(props) {
         props.socket.emit('join', props.chatData.socket);
     }
     
-    /*
+    
     let time = props.chatData.chat[props.chatData.chat.lastIndex].time;
     let message = props.chatData.chat[props.chatData.chat.lastIndex].message
-    */
+    
     
     //읽지 않은 메시지 확인 
     let newChat = 0;
@@ -51,13 +51,13 @@ function ChatList(props) {
 
             <div>
                 <Text strong={true} style={{fontSize: '15px'}}>{props.chatData.receiverName}</Text>
-                {/*
+                
                 <div style={{float:'right'}}>
                 {moment(time).format('M월D일 HH시mm분')} 
                 </div>
                 <br/>
                 {message}
-                */} 
+                
                 <Badge count={newChat} />
 
             </div>

@@ -28,10 +28,13 @@ function LandingPage(props) {
         //채팅방에 있지 않아도 새로운 채팅이 오면 채팅방 내역에 새로운 채팅내역 추가
         socket.on("Output Chat Message", messageFromBackEnd => {
             dispatch(getChatList());
+            console.log(window.location.href);
+            
+
         })
     }, [])
 
-
+    console.log(user)
 
     //친구목록 랜더링
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
