@@ -18,8 +18,8 @@ function ChatPage(props) {
     }
 
     const renderCards = () => 
-        chat.chat && chat.chat.map((chats) => (
-            <ChatCard key={chats._id} userId={user._id} {...chats} />
+        chat.chat && chat.chat.map((chats, index) => (
+            <ChatCard key={index} userId={user._id} {...chats} />
     ));
     
 
@@ -73,7 +73,7 @@ function ChatPage(props) {
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
 
 
-        <div className="infinite-container" style={{ height: '500px', overflowY:' scroll' }}>
+        <div className="infinite-container" style={{ height: '600px', overflowY:' scroll' }}>
                 {chat && (
                     <div>{renderCards()}</div>
                 )} 

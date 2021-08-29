@@ -68,8 +68,9 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+//친구 검색
 router.post("/search", auth, (req, res) => {
-    console.log(req.body.friendsName)
+    
     User.find({ name: req.body.friendsName })
     .exec((err, search) => {
         if (err) return res.status(400).json({ success: false, err })
@@ -77,6 +78,7 @@ router.post("/search", auth, (req, res) => {
     });
 })
 
+//친구 목록 불러오기
 router.get("/getfriends", auth, (req, res) => {
     User.findOne({ _id: req.user._id })
         .exec((err, doc) => {
@@ -86,7 +88,9 @@ router.get("/getfriends", auth, (req, res) => {
         });
 })
 
+//친구 추가
 router.post("/addfriends", auth, (req, res) => {
+
     User.findOneAndUpdate({ _id: req.user._id }, {
         "$push": {
             "friends": {
@@ -96,14 +100,15 @@ router.post("/addfriends", auth, (req, res) => {
         }
     },{ new: true },
     (err, doc) => {
+        //추가한 친구의 정보만 프론트로 전달 후 친구목록 배열에 concat
         let friends = doc.friends[doc.friends.length-1]
-        console.log(friends);
+        
         if (err) return res.status(400).json({ success: false, err })
         res.status(200).send({ success: true, friends })
     })
 })
 
-
+//친구 삭제
 router.get("/deletefriends", auth, (req, res) => {
     User.find({ _id: req.user._id },{
         "pull": {
@@ -115,6 +120,7 @@ router.get("/deletefriends", auth, (req, res) => {
     }
 })
 
+//채팅 목록 불러오기
 router.get("/getchatlist", auth, (req, res) => {
     User.findOne({ _id: req.user._id })
         .exec((err, doc) => {
@@ -124,6 +130,7 @@ router.get("/getchatlist", auth, (req, res) => {
         });
 })
 
+//채팅 내역 불러오기
 router.get("/getchats", auth, (req, res) => {
  
     User.findOne({ _id: req.user._id, chats: {$elemMatch: {socketId: req.query.socketId}}},{

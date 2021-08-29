@@ -31,14 +31,20 @@ function FriendsList(props) {
     }
 
     return (
-        <div>
-            <Avatar size="large" icon="user" />
-            {props.data.name}
-            <Button icon="delete" style={{float: 'right'}} onClick={deleteButton}/>
-            <Button icon="message" style={{float: 'right'}} onClick={ChatButton}/>
-            <br />
-            <br />
+        <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'20px', backgroundColor:'red'}}> 
+            <div style={{width: '40px', float:'left', backgroundColor:'blue'}}>
+                <Avatar size="large" icon="user" />
+            </div>
+            
+            <span style={{textAlign: 'center'}}>{props.data.name}</span>
+                
+           
+            <div style={{float:'right'}}> 
+                    <Button icon="delete"  onClick={deleteButton}/>
+                    <Button icon="message"  onClick={ChatButton}/>
+                </div>
         </div>
+
     )
 }
 
