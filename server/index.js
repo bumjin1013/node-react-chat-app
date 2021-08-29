@@ -129,7 +129,8 @@ io.on("connection", (socket) => {
             "senderName": msg.userName,
             "message": msg.chatMessage,
             "time": msg.nowTime,
-            "type": msg.type
+            "type": msg.type,
+            "read": false
           }
             }},{ new: true },
             (err, doc) => {
@@ -144,7 +145,8 @@ io.on("connection", (socket) => {
             "senderName": msg.userName,
             "message": msg.chatMessage,
             "time": msg.nowTime,
-            "type": msg.type
+            "type": msg.type,
+            "read": false
           }
             }},{ new: true },
             (err, doc) => {

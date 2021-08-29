@@ -4,9 +4,10 @@ import { Form, Icon, Input, Button, Row, Col } from 'antd';
 import { io } from 'socket.io-client';
 import ChatCard from './Section/ChatCard';
 import moment from 'moment';
-import { afterPostMessage, getChats } from '../../../_actions/chat_actions';
+import { afterPostMessage, getChatList, getChats } from '../../../_actions/chat_actions';
 
 function ChatPage(props) {
+
     const dispatch = useDispatch();
     const socket = io("http://localhost:5000"); //connet client-to-server
     const chat = useSelector(state => state.chat.currentChat);
@@ -28,7 +29,9 @@ function ChatPage(props) {
    
         socket.on("Output Chat Message", messageFromBackEnd => {
             console.log(messageFromBackEnd);
-            dispatch(afterPostMessage(messageFromBackEnd))
+            dispatch(afterPostMessage(messageFromBackEnd));
+            dispatch(getChatList());
+            console.log(window.location.href);
         })
     }, [])
 
@@ -52,6 +55,7 @@ function ChatPage(props) {
         let socketId = props.location.state.chatData.socketId;
         let nowTime = Date();
         let type = "Text";
+        
 
         socket.emit("Input Chat Message", {
             chatMessage,

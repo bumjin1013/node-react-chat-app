@@ -47,7 +47,8 @@ const userSchema = mongoose.Schema({
             senderName: { type: String },
             message: { type: String },
             time: { type: String },
-            type: { type: String }
+            type: { type: String },
+            read: { type: Boolean }
          }],
     }]
 })

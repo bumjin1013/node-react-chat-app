@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
     GET_CHAT_LIST,
     AFTER_POST_MESSAGE,
-    GET_CHATS
+    GET_CHATS,
+    READ_MESSAGE
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -35,3 +36,16 @@ export function afterPostMessage(data){
     }
 }
 
+export function readMessage(receiverId){
+
+    let body = {
+        receiverId: receiverId
+    }
+    const request = axios.post(`${USER_SERVER}/readmessage`, body)
+        .then(response => response.data);
+
+    return {
+        type: READ_MESSAGE,
+        payload: request
+    }
+}

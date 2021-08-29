@@ -10,8 +10,6 @@ function FriendsList(props) {
 
     }
 
-    console.log(props.data);
-
     const ChatButton = () => {
         props.history.push({
             pathname: "/chat",
@@ -31,8 +29,8 @@ function FriendsList(props) {
     }
 
     return (
-        <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'20px', backgroundColor:'red'}}> 
-            <div style={{width: '40px', float:'left', backgroundColor:'blue'}}>
+        <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'20px'}}> 
+            <div style={{width: '40px', float:'left'}}>
                 <Avatar size="large" icon="user" />
             </div>
             

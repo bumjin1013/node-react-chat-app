@@ -10,3 +10,4 @@ export const GET_FRIENDS = 'get_friends';
 export const GET_CHATS = 'get_chats';
 export const GET_CHAT_LIST = 'get_chat_list';
 export const AFTER_POST_MESSAGE = 'after_post_message';
+export const READ_MESSAGE = 'read_message';
