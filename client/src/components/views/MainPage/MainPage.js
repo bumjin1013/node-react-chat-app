@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFriends } from '../../../_actions/friends_actions';
 import { getChatList } from '../../../_actions/chat_actions';
 import FriendsList from './Section/FriendsList';
-import { Tabs, Icon, Badge, Empty } from 'antd';
+import { Tabs, Icon, Badge, Empty, Avatar, Divider } from 'antd';
 import ChatList from './Section/ChatList';
 import { io } from 'socket.io-client';
 import axios from 'axios';
@@ -37,6 +37,23 @@ function LandingPage(props) {
 
         })
     }, [])
+
+    //로그인 유저 렌더링
+    const renderUser = () => {
+
+        if(user.userData){
+            return (
+                <div style={{clear: 'both', width: '100%'}}> 
+                    <div style={{width: '45px', float:'left'}}>
+                    <Avatar size="large" icon="user" />
+                    </div>
+                    <span style={{position: 'relative', top:'5px'}}>{user.userData.name}</span>
+                    <Divider />
+                </div>
+                
+            )
+        }
+    }
   
     //친구목록 랜더링
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
@@ -77,11 +94,13 @@ function LandingPage(props) {
         <div style={{ margin: '20px', marginTop:'0'}}>
             <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab={<Icon type='user' style={{ fontSize: '20px'}}/>} key="1">
-                    { friends.friendsData && friends.friendsData.friendsList.legnth > 0 ? renderFriends : <Empty description={'No Friends'}/>}
+                    { renderUser() }
+                    <span>친구 {friends.friendsData && Object.keys(friends.friendsData.friendsList).length}</span>
+                    { friends.friendsData && Object.keys(friends.friendsData.friendsList).length > 0 ? renderFriends : <Empty description={'No Friends'}/>}
                 </TabPane>
 
                 <TabPane tab={<Badge count={newChat} ><Icon type='message' style={{ fontSize: '20px'}}/></Badge>} key="2">
-                    { chat.chatData && chat.chatData.chatList.length > 0 ? renderChatList : <Empty description={'No Chat'}/> }
+                    { chat.chatData && Object.keys(chat.chatData.chatList).length > 0 ? renderChatList : <Empty description={'No Chat'}/> }
                 </TabPane>
                 
                 <TabPane tab={<Icon type='search' style={{ fontSize: '20px'}}/>} key="3">

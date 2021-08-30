@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Button, Empty } from 'antd';
+import { Avatar, Button, Icon } from 'antd';
 import { withRouter } from "react-router-dom";
 import { makeChatRoom } from '../../../../_actions/chat_actions';
 import { deleteFriends, getFriends } from '../../../../_actions/friends_actions';
@@ -74,8 +74,9 @@ function FriendsList(props) {
                 
            
             <div style={{float:'right'}}> 
-                <Button icon="delete"  onClick={deleteButton}/>
-                <Button icon="message"  onClick={ChatButton}/>
+                <Icon type="message" theme="outlined" style={{fontSize: '20px' ,position: 'relative', top:'10px', right:'10px'}} onClick={ChatButton} />
+                <Icon type="delete" theme="outlined" style={{fontSize: '20px', position: 'relative', top:'10px'}} onClick={deleteButton} />
+                
             </div>
         </div>
 
