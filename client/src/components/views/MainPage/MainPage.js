@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFriends } from '../../../_actions/friends_actions';
 import { getChatList } from '../../../_actions/chat_actions';
 import FriendsList from './Section/FriendsList';
-import { Tabs, Icon, Badge } from 'antd';
+import { Tabs, Icon, Badge, Empty } from 'antd';
 import ChatList from './Section/ChatList';
 import { io } from 'socket.io-client';
+import axios from 'axios';
 
 const { TabPane } = Tabs;
 
@@ -39,10 +40,10 @@ function LandingPage(props) {
   
     //친구목록 랜더링
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
-
-        return(
-            <FriendsList data={friends} userData={user.userData} socket={socket} key={index}/>
-        )
+        
+       return (
+        <FriendsList data={friends} userData={user.userData} socket={socket} key={index}/>
+       )
     })
 
     //채팅목록 랜더링
@@ -60,24 +61,37 @@ function LandingPage(props) {
         )
     })
 
+    //로그아웃
+    const logoutHandler = () => {
+        axios.get('/api/users/logout').then(response => {
+          if (response.status === 200) {
+            props.history.push("/login");
+          } else {
+            alert('Log Out Failed')
+          }
+        });
+      };
+
 
     return (
         <div style={{ margin: '20px', marginTop:'0'}}>
             <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab={<Icon type='user' style={{ fontSize: '20px'}}/>} key="1">
-                    <SearchFriends userData={user.userData} friendsData={friends.friendsData}/>
-                        <br />
-                    { renderFriends }
+                    { friends.friendsData && friends.friendsData.friendsList.legnth > 0 ? renderFriends : <Empty description={'No Friends'}/>}
                 </TabPane>
+
                 <TabPane tab={<Badge count={newChat} ><Icon type='message' style={{ fontSize: '20px'}}/></Badge>} key="2">
-                    { renderChatList }
+                    { chat.chatData && chat.chatData.chatList.length > 0 ? renderChatList : <Empty description={'No Chat'}/> }
                 </TabPane>
                 
-                <TabPane tab={<Icon type='ellipsis' style={{ fontSize: '20px'}}/>} key="3">
-                    <div>
+                <TabPane tab={<Icon type='search' style={{ fontSize: '20px'}}/>} key="3">
+                    <SearchFriends userData={user.userData} friendsData={friends.friendsData}/>
+                </TabPane>
+
+                <TabPane tab={<Icon type='ellipsis' style={{ fontSize: '20px'}}/>} key="4">
+                    <div onClick={logoutHandler}>
                         <Icon type="export" /> 로그아웃
                     </div>
-                    
                 </TabPane>
                 
    

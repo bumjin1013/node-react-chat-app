@@ -53,8 +53,6 @@ function SearchFriends(props) {
 
         const addFriendsButton = () => {
 
-            
-
             //본인 아이디 검색 후 추가 버튼 클릭시 알림
             if(list._id == props.userData._id){
                 alert('본인은 추가할 수 없습니다.');

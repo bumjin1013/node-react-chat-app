@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Empty } from 'antd';
 import { withRouter } from "react-router-dom";
 import { makeChatRoom } from '../../../../_actions/chat_actions';
 import { deleteFriends, getFriends } from '../../../../_actions/friends_actions';
@@ -66,17 +66,17 @@ function FriendsList(props) {
 
     return (
         <div style={{clear: 'both', width: '100%', paddingTop:'10px', paddingBottom:'20px'}}> 
-            <div style={{width: '40px', float:'left'}}>
+            <div style={{width: '45px', float:'left'}}>
                 <Avatar size="large" icon="user" />
             </div>
             
-            <span style={{textAlign: 'center'}}>{props.data.name}</span>
+            <span style={{position: 'relative', top:'5px'}}>{props.data.name}</span>
                 
            
             <div style={{float:'right'}}> 
-                    <Button icon="delete"  onClick={deleteButton}/>
-                    <Button icon="message"  onClick={ChatButton}/>
-                </div>
+                <Button icon="delete"  onClick={deleteButton}/>
+                <Button icon="message"  onClick={ChatButton}/>
+            </div>
         </div>
 
     )
