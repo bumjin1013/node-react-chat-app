@@ -109,15 +109,17 @@ router.post("/addfriends", auth, (req, res) => {
 })
 
 //친구 삭제
-router.get("/deletefriends", auth, (req, res) => {
-    User.find({ _id: req.user._id },{
-        "pull": {
-            "friends.$.email": req.body.email
-    }}),
+router.post("/deletefriends", auth, (req, res) => {
+    
+    User.findOneAndUpdate({ _id: req.user._id },{
+        "$pull": {
+            "friends": {
+                "id": req.body.friendsId
+    }}},{ new: true },
     (err, friendsList) => {
         if (err) return res.status(400).json({ success: false, err })
         res.status(200).send({ success: true, friendsList })
-    }
+    })
 })
 
 //채팅 목록 불러오기
@@ -153,7 +155,7 @@ router.get("/getchats", auth, (req, res) => {
     });
 })
 
-
+//채팅창에 있을 시 메시지 읽음처리
 router.post("/readmessage", auth, (req, res) => {
 
     User.findOneAndUpdate(

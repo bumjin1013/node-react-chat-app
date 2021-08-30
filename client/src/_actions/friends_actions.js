@@ -29,14 +29,16 @@ export function addFriends(body){
     }
 }
 
-export function deleteFriends(body){
+export function deleteFriends(friendsId){
     
+    let body = { friendsId }
+
     const request = axios.post(`${USER_SERVER}/deletefriends`, body)
         .then(response => response.data)
 
     return {
         type: DELETE_FRIENDS,
-        payload: request
+        payload: friendsId
     }
 }
 

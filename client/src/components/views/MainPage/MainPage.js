@@ -1,10 +1,10 @@
 import SearchFriends from './Section/SearchFriends';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriends } from '../../../_actions/friends_actions';
 import { getChatList } from '../../../_actions/chat_actions';
 import FriendsList from './Section/FriendsList';
-import { Tabs, Icon } from 'antd';
+import { Tabs, Icon, Badge } from 'antd';
 import ChatList from './Section/ChatList';
 import { io } from 'socket.io-client';
 
@@ -16,11 +16,15 @@ function LandingPage(props) {
     
     const callback = (key) => {
     }
+
     const dispatch = useDispatch();
     const socket = io("http://localhost:5000"); //connet client-to-server
     const friends = useSelector(state => state.friends);
     const user = useSelector(state => state.user);
     const chat = useSelector(state => state.chat);
+
+    //읽지 않은 총 메시지 개수를 위한 변수 선언
+    let newChat = 0;
 
     useEffect(() => {
         dispatch(getFriends());
@@ -32,8 +36,6 @@ function LandingPage(props) {
 
         })
     }, [])
-
-
   
     //친구목록 랜더링
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
@@ -46,12 +48,18 @@ function LandingPage(props) {
     //채팅목록 랜더링
     const renderChatList = chat.chatData && chat.chatData.chatList.map((chats, index) => {
 
-        console.log(chats);
+        //read: false 인 메시지의 개수를 셈
+        chats.chat.map((chatlist, index) => {
+            if(chatlist.read == false){
+                newChat = newChat + 1;
+            }
+        })
         
         return(
             <ChatList chatData={chats} userData={user} socket={socket} key={index}/>
         )
     })
+
 
     return (
         <div style={{ margin: '20px', marginTop:'0'}}>
@@ -61,9 +69,17 @@ function LandingPage(props) {
                         <br />
                     { renderFriends }
                 </TabPane>
-                <TabPane tab={<Icon type='message' style={{ fontSize: '20px'}}/>} key="2">
+                <TabPane tab={<Badge count={newChat} ><Icon type='message' style={{ fontSize: '20px'}}/></Badge>} key="2">
                     { renderChatList }
                 </TabPane>
+                
+                <TabPane tab={<Icon type='ellipsis' style={{ fontSize: '20px'}}/>} key="3">
+                    <div>
+                        <Icon type="export" /> 로그아웃
+                    </div>
+                    
+                </TabPane>
+                
    
             </Tabs>
         </div>

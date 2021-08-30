@@ -12,7 +12,7 @@ export default function(state={},action){
         case ADD_FRIENDS:
             return {...state, friendsData: {friendsList: state.friendsData.friendsList.concat(action.payload.friends)}}
         case DELETE_FRIENDS:
-            return {...state, friendsData: action.payload}
+            return {...state}
         default:
             return state;
     }
