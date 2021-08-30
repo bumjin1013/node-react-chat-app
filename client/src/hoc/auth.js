@@ -15,7 +15,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                 //Not Loggined in Status 
                 if (!response.payload.isAuth) {
                     if (option) {
-                        props.history.push('/login')
+                        props.history.push('/')
                     }
                     //Loggined in Status 
                 } else {
@@ -26,7 +26,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                     //Logged in Status, but Try to go into log in page 
                     else {
                         if (option === false) {
-                            props.history.push('/')
+                            props.history.push('/main')
                         }
                     }
                 }

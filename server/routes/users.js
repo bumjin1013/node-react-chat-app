@@ -142,16 +142,20 @@ router.get("/getchats", auth, (req, res) => {
         }
     })
     .exec((err, doc) => {
+        if(doc){
         let chat = doc.chats[0].chat //chat 내용만 전달 (senderId, senderName, message, time, type)
-            
         if (err) return res.status(400).json({ success: false, err })
         res.status(200).json({ chat })
+        } else {
+            null
+        }
+       
     });
 })
 
 
 router.post("/readmessage", auth, (req, res) => {
- 
+
     User.findOneAndUpdate(
         { _id: req.user._id },
         { $set: { "chats.$[elem].chat.$[].read" : true } },
@@ -161,6 +165,7 @@ router.post("/readmessage", auth, (req, res) => {
             if (err) return res.status(400).json({ success: false, err })
             res.status(200).send({ success: true, doc })
         })
+    
 })
 
 module.exports = router;

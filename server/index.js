@@ -64,11 +64,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 io.on("connection", (socket) => {
-  console.log("socket conneection event", socket.id, "client connected");
-
   //대화하기를 눌렀을 때, socket = null => socket = 방이름 으로 변경시켜줌.
   socket.on("joinRoom", data => {
-    console.log('data', data);
     socket.join(data.room);
 
     //유저 채팅방에 이미 상대방과의 채팅내역이 존재하는지 확인 후 없으면 추가

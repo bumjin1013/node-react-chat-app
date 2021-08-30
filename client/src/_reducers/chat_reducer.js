@@ -3,7 +3,8 @@ import {
     GET_CHAT_LIST,
     AFTER_POST_MESSAGE,
     GET_CHATS,
-    READ_MESSAGE
+    READ_MESSAGE,
+    MAKE_CHAT_ROOM
 } from '../_actions/types';
  
 
@@ -17,6 +18,8 @@ export default function(state={},action){
             return {...state, currentChat: { chat: state.currentChat.chat.concat(action.payload)}}
         case READ_MESSAGE:
             return {...state, chatData: action.payload }
+        case MAKE_CHAT_ROOM:
+            return {...state, chatData: { chatList: state.chatData.chatList.concat(action.payload)}}
         default:
             return state;
     }

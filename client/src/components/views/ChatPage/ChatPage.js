@@ -25,20 +25,20 @@ function ChatPage(props) {
     
 
     useEffect(() => {
+        
+        console.log('state', props.location.state)
         dispatch(getChats(props.location.state.chatData.socketId))
    
         socket.on("Output Chat Message", messageFromBackEnd => {
-
+            
             //채팅 페이지에 있으면 메시지를 받을경우 읽음처리 
             if(window.location.href == 'http://localhost:3000/chat'){
+                console.log('상대방이 채팅 페이지에 있음')
                 dispatch(readMessage(props.location.state.chatData.receiverId))
-            }
+    
+            } 
             dispatch(afterPostMessage(messageFromBackEnd));
             dispatch(getChatList());
-
-            console.log(window.location.href);
-            //채팅방 안에 존재하면 메세지 읽음처리
-           
         })
     }, [])
 

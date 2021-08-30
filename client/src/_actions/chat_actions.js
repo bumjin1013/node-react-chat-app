@@ -3,7 +3,8 @@ import {
     GET_CHAT_LIST,
     AFTER_POST_MESSAGE,
     GET_CHATS,
-    READ_MESSAGE
+    READ_MESSAGE,
+    MAKE_CHAT_ROOM
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -33,6 +34,13 @@ export function afterPostMessage(data){
         type: AFTER_POST_MESSAGE,
         payload: data
         
+    }
+}
+
+export function makeChatRoom(data){
+    return {
+        type: MAKE_CHAT_ROOM,
+        payload: data
     }
 }
 

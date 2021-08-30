@@ -22,7 +22,7 @@ export function addFriends(body){
     
     const request = axios.post(`${USER_SERVER}/addfriends`, body)
         .then(response => response.data)
-    console.log(request);
+
     return {
         type: ADD_FRIENDS,
         payload: request

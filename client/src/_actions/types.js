@@ -11,3 +11,4 @@ export const GET_CHATS = 'get_chats';
 export const GET_CHAT_LIST = 'get_chat_list';
 export const AFTER_POST_MESSAGE = 'after_post_message';
 export const READ_MESSAGE = 'read_message';
+export const MAKE_CHAT_ROOM = 'make_chat_room';

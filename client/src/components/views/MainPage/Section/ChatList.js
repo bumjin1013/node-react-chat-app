@@ -14,7 +14,6 @@ function ChatList(props) {
 
     const enterChatRoom = () => {
         
-        console.log(props.chatData.receiverId);
         //메시지 읽음 표시를 위해 dispatch 클릭한 채팅방의 상대방 정보를 전달
         dispatch(readMessage(props.chatData.receiverId));
 
