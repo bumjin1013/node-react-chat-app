@@ -10,6 +10,12 @@ const { Text } = Typography;
 
 function ChatList(props) {
     
+    //채팅방 마지막 시간, 메시지 변수
+    let time;
+    let message;
+    //읽지 않은 메시지 확인 
+    let newChat = 0;
+
     const dispatch = useDispatch();
 
     const enterChatRoom = () => {
@@ -26,12 +32,17 @@ function ChatList(props) {
     }
     
     
-    let time = props.chatData.chat[props.chatData.chat.lastIndex].time;
-    let message = props.chatData.chat[props.chatData.chat.lastIndex].message
+    //props로 받은 채팅방에서 채팅 내역이 없을 경우 (채팅방만 만들어졌을 경우)
+    if(props.chatData.chat.length > 0){
+        time = props.chatData.chat[props.chatData.chat.lastIndex].time;
+        message = props.chatData.chat[props.chatData.chat.lastIndex].message
+    } else {
+        time = null;
+        message = null;
+    }
     
     
-    //읽지 않은 메시지 확인 
-    let newChat = 0;
+    
 
     props.chatData && props.chatData.chat.map((chat, index) => {
             
