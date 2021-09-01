@@ -163,9 +163,9 @@ router.post("/readmessage", auth, (req, res) => {
         { $set: { "chats.$[elem].chat.$[].read" : true } },
         {arrayFilters: [ { "elem.receiverId": req.body.receiverId } ],multi:true},
         (err, doc) => {
-        
+            let chatList = doc.chats
             if (err) return res.status(400).json({ success: false, err })
-            res.status(200).send({ success: true, doc })
+            res.status(200).send({ success: true, chatList })
         })
     
 })
