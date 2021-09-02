@@ -3,8 +3,8 @@ import { Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import moment from 'moment'; 
-import { Typography, Badge } from 'antd';
-import { readMessage } from '../../../../_actions/chat_actions';
+import { Typography, Badge, Button } from 'antd';
+import { readMessage, outChatRoom, getChatList } from '../../../../_actions/chat_actions';
 
 const { Text } = Typography;
 
@@ -30,6 +30,17 @@ function ChatList(props) {
 
         props.socket.emit('join', props.chatData.socket);
     }
+
+    const outRoom = () => {
+
+        alert()
+        dispatch(outChatRoom(props.chatData.receiverId))
+
+        setTimeout(() => {
+            dispatch(getChatList())
+        }, 50);
+        
+    }
     
     
     //props로 받은 채팅방에서 채팅 내역이 없을 경우 (채팅방만 만들어졌을 경우)
@@ -54,21 +65,22 @@ function ChatList(props) {
     
 
     return (
-        <div onClick={enterChatRoom} style={{paddingBottom: '10px', paddingTop: '10px'}}>
-            <div style={{width:'45px', float:'left'}}>
+        <div  style={{paddingBottom: '10px', paddingTop: '10px'}}>
+            <div onClick={enterChatRoom} style={{width:'45px', float:'left'}}>
                 <Avatar size="large" icon="user" />
             </div>
 
             <div>
                 <Text strong={true} style={{fontSize: '15px'}}>{props.chatData.receiverName}</Text>
                 
-                <div style={{float:'right'}}>
-                {moment(time).format('M월D일 HH시mm분')} 
+                <div style={{float:'right'}} onClick={enterChatRoom}>
+                    {moment(time).format('M월D일 HH시mm분')} 
                 </div>
                 <br/>
-                {message}
+                <span onClick={enterChatRoom}> {message} <Badge count={newChat} /></span>
+                <Button icon="export" style={{float: 'right', fontSize: '20px'}} onClick={outRoom}/>
                 
-                <Badge count={newChat} />
+                
 
             </div>
         </div>

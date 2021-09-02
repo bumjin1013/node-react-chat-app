@@ -170,4 +170,19 @@ router.post("/readmessage", auth, (req, res) => {
     
 })
 
+router.post("/outchatroom", auth, (req, res) => {
+
+    console.log(req.body);
+    User.findOneAndUpdate({ _id: req.user._id },{
+        "$pull": {
+            "chats": {
+                "receiverId": req.body.receiverId
+    }}},{ new: true },
+    (err, friendsList) => {
+        if (err) return res.status(400).json({ success: false, err })
+        res.status(200).send({ success: true, friendsList })
+    })
+
+})
+
 module.exports = router;

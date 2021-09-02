@@ -4,7 +4,8 @@ import {
     AFTER_POST_MESSAGE,
     GET_CHATS,
     READ_MESSAGE,
-    MAKE_CHAT_ROOM
+    MAKE_CHAT_ROOM,
+    OUT_CHAT_ROOM
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -41,6 +42,19 @@ export function makeChatRoom(data){
     return {
         type: MAKE_CHAT_ROOM,
         payload: data
+    }
+}
+
+export function outChatRoom(receiverId){
+
+    let body = { receiverId }
+
+    const request = axios.post(`${USER_SERVER}/outchatroom`, body)
+        .then(response => response.data)
+
+    return {
+        type: OUT_CHAT_ROOM,
+        payload: request
     }
 }
 
