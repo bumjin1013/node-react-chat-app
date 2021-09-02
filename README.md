@@ -1,6 +1,5 @@
 # Chat App 
- <img src ='https://user-images.githubusercontent.com/86178231/131352936-4bf23666-8a38-4745-8e16-31cf3b74a827.gif
-' >
+ <img src ='https://user-images.githubusercontent.com/86178231/131352936-4bf23666-8a38-4745-8e16-31cf3b74a827.gif'/>
 
 ## Tech Stack
 <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/></a> 
@@ -48,7 +47,7 @@ client
         │       ├─ user_actions.js
         │       └─ types.js
         │
-        ├─ _retucers
+        ├─ _reducers
         │       ├─ chat-reducer.js
         │       ├─ friends_reducer.js
         │       ├─ user_reducer.js
