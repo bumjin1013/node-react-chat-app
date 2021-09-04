@@ -151,7 +151,6 @@ router.get("/getchats", auth, (req, res) => {
         } else {
             null
         }
-       
     });
 })
 
@@ -167,22 +166,20 @@ router.post("/readmessage", auth, (req, res) => {
             if (err) return res.status(400).json({ success: false, err })
             res.status(200).send({ success: true, chatList })
         })
-    
 })
 
+//채팅방 삭제(나가기)
 router.post("/outchatroom", auth, (req, res) => {
 
-    console.log(req.body);
     User.findOneAndUpdate({ _id: req.user._id },{
         "$pull": {
             "chats": {
                 "receiverId": req.body.receiverId
     }}},{ new: true },
-    (err, friendsList) => {
+    (err, doc) => {
         if (err) return res.status(400).json({ success: false, err })
-        res.status(200).send({ success: true, friendsList })
+        res.status(200).send({ success: true, doc })
     })
-
 })
 
 module.exports = router;

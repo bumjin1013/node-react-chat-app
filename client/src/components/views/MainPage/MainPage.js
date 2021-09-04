@@ -20,21 +20,21 @@ function LandingPage(props) {
 
     const dispatch = useDispatch();
     const socket = io("http://localhost:5000"); //connet client-to-server
-    const friends = useSelector(state => state.friends);
-    const user = useSelector(state => state.user);
-    const chat = useSelector(state => state.chat);
+    const friends = useSelector(state => state.friends); //친구목록 state
+    const user = useSelector(state => state.user); //user정보 state
+    const chat = useSelector(state => state.chat); //채팅내역 state
 
     //읽지 않은 총 메시지 개수를 위한 변수 선언
     let newChat = 0;
 
     useEffect(() => {
+        //친구목록, 채팅내역 불러옴
         dispatch(getFriends());
         dispatch(getChatList());
 
         //채팅방에 있지 않아도 새로운 채팅이 오면 채팅방 내역에 새로운 채팅내역 추가
         socket.on("Output Chat Message", messageFromBackEnd => {
-            dispatch(getChatList());
-
+            dispatch(getChatList()); 
         })
     }, [])
 
@@ -112,8 +112,6 @@ function LandingPage(props) {
                         <Icon type="export" /> 로그아웃
                     </div>
                 </TabPane>
-                
-   
             </Tabs>
         </div>
     )

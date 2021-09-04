@@ -18,6 +18,7 @@ function ChatList(props) {
 
     const dispatch = useDispatch();
 
+    //기존에 존재하는 채팅방 입장
     const enterChatRoom = () => {
         
         //메시지 읽음 표시를 위해 dispatch 클릭한 채팅방의 상대방 정보를 전달
@@ -31,30 +32,28 @@ function ChatList(props) {
         props.socket.emit('join', props.chatData.socket);
     }
 
+    //채팅방 삭제
     const outRoom = () => {
 
-        alert()
         dispatch(outChatRoom(props.chatData.receiverId))
 
+        //DB에서 삭제 된 후의 데이터를 불러오기위해 setTimeout을 이용해 동기 처리
         setTimeout(() => {
             dispatch(getChatList())
         }, 50);
         
     }
     
-    
     //props로 받은 채팅방에서 채팅 내역이 없을 경우 (채팅방만 만들어졌을 경우)
     if(props.chatData.chat.length > 0){
         time = props.chatData.chat[props.chatData.chat.lastIndex].time;
         message = props.chatData.chat[props.chatData.chat.lastIndex].message
-    } else {
+    } else { //채팅방은 존재하지만 (친구목록에서 대화하기만 누른 경우) 채팅내역이 존재하지 않을 경우
         time = null;
         message = null;
     }
     
-    
-    
-
+    //채팅 내역에서 읽지 않은 메시지의 갯수
     props.chatData && props.chatData.chat.map((chat, index) => {
             
         //채팅 내역 중 상대방이 보낸 채팅이고 read = flase 일 때 newChat에 + 1 (읽지 않은 메시지)
