@@ -8,6 +8,7 @@ import { Tabs, Icon, Badge, Empty, Avatar, Divider } from 'antd';
 import ChatList from './Section/ChatList';
 import { io } from 'socket.io-client';
 import axios from 'axios';
+import Etc from './Section/Etc';
 
 const { TabPane } = Tabs;
 
@@ -54,6 +55,8 @@ function LandingPage(props) {
             )
         }
     }
+
+  
   
     //친구목록 랜더링
     const renderFriends = friends.friendsData && friends.friendsData.friendsList.map((friends, index) => {
@@ -78,16 +81,9 @@ function LandingPage(props) {
         )
     })
 
-    //로그아웃
-    const logoutHandler = () => {
-        axios.get('/api/users/logout').then(response => {
-          if (response.status === 200) {
-            props.history.push("/login");
-          } else {
-            alert('Log Out Failed')
-          }
-        });
-      };
+  
+
+    
 
 
     return (
@@ -108,9 +104,7 @@ function LandingPage(props) {
                 </TabPane>
 
                 <TabPane tab={<Icon type='ellipsis' style={{ fontSize: '20px'}}/>} key="4">
-                    <div onClick={logoutHandler}>
-                        <Icon type="export" /> 로그아웃
-                    </div>
+                    <Etc user={user.userData} />
                 </TabPane>
             </Tabs>
         </div>

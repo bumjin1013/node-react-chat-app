@@ -68,6 +68,18 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+//유저 정보 수정
+router.post("/changeinfo", auth, (req, res) => {
+
+    User.findOneAndUpdate({ _id: req.user._id },{
+        "$set": {
+            "nickname": req.body.nickname
+    }},{ new: true },
+    (err, doc) => {
+        if (err) return res.status(400).json({ success: false, err })
+        res.status(200).send({ success: true, doc })
+    })
+})
 //친구 검색
 router.post("/search", auth, (req, res) => {
     
@@ -181,5 +193,8 @@ router.post("/outchatroom", auth, (req, res) => {
         res.status(200).send({ success: true, doc })
     })
 })
+
+//파일 보내기
+
 
 module.exports = router;
