@@ -42,9 +42,6 @@ function Etc(props) {
         setChangedName(event.target.value)
     }
 
-    console.log(props.user);
-   
-
     return (
         <div>
             <div onClick={changeInfo} style={{paddingBottom: '10px'}}>

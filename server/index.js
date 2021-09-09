@@ -91,8 +91,7 @@ io.on("connection", (socket) => {
             }
           },{ new: true },
             (err, doc) => {
-              if(err) console.log(err)
-              console.log(doc);
+              if(err) console.log(err);
             }
           ),
           //대화 상대

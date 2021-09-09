@@ -5,6 +5,8 @@ import { io } from 'socket.io-client';
 import ChatCard from './Section/ChatCard';
 import moment from 'moment';
 import { afterPostMessage, getChatList, getChats, readMessage } from '../../../_actions/chat_actions';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 function ChatPage(props) {
 
@@ -42,6 +44,7 @@ function ChatPage(props) {
         })
     }, [])
 
+    //채팅창 맨 아래로 
     useEffect(() => {
 
         messagesEnd.current.scrollIntoView({behavior: 'smooth'});
@@ -49,10 +52,9 @@ function ChatPage(props) {
       }, [renderCards])
 
 
-
+    //채팅 보내기
     const submitChatMessage = (event) => {
 
-        
         event.preventDefault();
 
         let chatMessage = ChatMessage;
@@ -76,6 +78,50 @@ function ChatPage(props) {
         });
         setChatMessage("");
     }
+
+    //파일 업로드
+    const onDrop = (files) => {
+        console.log(files)
+
+
+        if (props.user.userData && !props.user.userData.isAuth) {
+            return alert('Please Log in first');
+        }
+
+
+
+        let formData = new FormData;
+
+        const config = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+
+        formData.append("file", files[0])
+
+        axios.post('/api/users/uploadfiles', formData, config)
+            .then(response => {
+                if (response.data.success) {
+                    let chatMessage = response.data.url;
+                    let userId = props.location.state.userData._id;
+                    let userName = props.location.state.userData.name;
+                    let receiverId = props.location.state.chatData.receiverId
+                    let socketId = props.location.state.chatData.socketId;
+                    let nowTime = Date();
+                    let type = "VideoOrImage";
+
+                    socket.emit("Input Chat Message", {
+                        chatMessage,
+                        userId,
+                        userName,
+                        nowTime,
+                        type,
+                        socketId,
+                        receiverId
+                    });
+                }
+            })
+    }
+
 
     return (
         <div>
@@ -108,7 +154,18 @@ function ChatPage(props) {
                         />
                     </Col>
                     <Col span={2}>
-                        
+                        <Dropzone onDrop={onDrop}>
+                            {({ getRootProps, getInputProps }) => (
+                                <section>
+                                    <div {...getRootProps()}>
+                                        <input {...getInputProps()} />
+                                            <Button>
+                                                <Icon type="upload" />
+                                            </Button>
+                                    </div>
+                                </section>
+                            )}
+                         </Dropzone>       
                     </Col>
 
                     <Col span={4}>

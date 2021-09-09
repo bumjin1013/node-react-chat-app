@@ -73,7 +73,7 @@ function ChatList(props) {
                 <Text strong={true} style={{fontSize: '15px'}}>{props.chatData.receiverName}</Text>
                 
                 <div style={{float:'right'}} onClick={enterChatRoom}>
-                    {moment(time).format('M월D일 HH시mm분')} 
+                    {props.chatData.chat.length > 0 ? moment(time).format('M월D일 HH시mm분') : null} 
                 </div>
                 <br/>
                 <span onClick={enterChatRoom}> {message} <Badge count={newChat} /></span>

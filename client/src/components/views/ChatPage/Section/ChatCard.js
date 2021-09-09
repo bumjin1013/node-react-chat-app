@@ -23,7 +23,27 @@ function ChatCard(props) {
                     {props.senderName}
                     
                     <br/>
-                    <span style={{float:'right'}}>{props.message}</span>
+                    <div style={{float:'right'}}>
+                        {props.message.substring(0, 8) === "uploads/" ?
+                        // this will be either video or image 
+
+                        props.message.substring(props.message.length - 3, props.message.length) === 'mp4' ?
+                            <video
+                                style={{ maxWidth: '200px' }}
+                                src={`http://localhost:5000/${props.message}`} alt="video"
+                                type="video/mp4" controls
+                            />
+                            :
+                            <img
+                                style={{ maxWidth: '200px' }}
+                                src={`http://localhost:5000/${props.message}`}
+                                alt="img"
+                            />
+                        :
+                        <p>
+                            {props.message}
+                        </p>}
+                    </div>
                     
                 </div>          
             </div>
@@ -40,7 +60,27 @@ function ChatCard(props) {
                     {props.senderName}
                     <span style={{fontSize:'12px', paddingLeft: '7px'}}>{moment(props.time).fromNow()} </span>
                     <br/>
-                    {props.message}
+                    <div >
+                        {props.message.substring(0, 8) === "uploads/" ?
+                        // this will be either video or image 
+
+                        props.message.substring(props.message.length - 3, props.message.length) === 'mp4' ?
+                            <video
+                                style={{ maxWidth: '200px' }}
+                                src={`http://localhost:5000/${props.message}`} alt="video"
+                                type="video/mp4" controls
+                            />
+                            :
+                            <img
+                                style={{ maxWidth: '200px' }}
+                                src={`http://localhost:5000/${props.message}`}
+                                alt="img"
+                            />
+                        :
+                        <p>
+                            {props.message}
+                        </p>}
+                    </div>
                 </div>          
             </div>
         )
