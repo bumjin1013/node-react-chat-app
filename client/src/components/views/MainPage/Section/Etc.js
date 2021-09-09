@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Avatar, Modal, Icon, Input, Row } from 'antd';
 import axios from 'axios';
+import { changeUserInfo } from '../../../../_actions/user_actions'
 
 function Etc(props) {
 
+    const disptach = useDispatch()
     const [Visible, setVisible] = useState(false)
     const [Name, setName] = useState(props.user && props.user.name)
+    const [ChangedName, setChangedName] = useState();
+
     //정보수정 버튼 
     const changeInfo = () => {
         setVisible(true);
@@ -13,6 +18,9 @@ function Etc(props) {
     //정보수정 확인 버튼
     const handleOk = () => {
         setVisible(false);
+
+        disptach(changeUserInfo(ChangedName));
+
     }
     //정보수정 취소 버튼
     const handleCancel = () => {
@@ -30,6 +38,10 @@ function Etc(props) {
         });
     };
 
+    const nameChangeHandler = (event) => {
+        setChangedName(event.target.value)
+    }
+
     console.log(props.user);
    
 
@@ -43,7 +55,7 @@ function Etc(props) {
                     <Avatar size="large" icon="user" />
                     <br/>
                     <br/>
-                    <Input default={Name} style={{width: '200px'}}/>
+                    <Input default={Name} style={{width: '100px', textAlign:'center'}} defaultValue={Name} onChange={nameChangeHandler}/>
                 </div>   
             </Modal>
             

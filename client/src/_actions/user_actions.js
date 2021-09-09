@@ -6,7 +6,8 @@ import {
     LOGOUT_USER,
     ADD_FRIENDS,
     DELETE_FRIENDS,
-    GET_FRIENDS
+    GET_FRIENDS,
+    CHANGE_USER_INFO
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -79,6 +80,18 @@ export function deleteFriends(body){
 
     return {
         type: DELETE_FRIENDS,
+        payload: request
+    }
+}
+
+export function changeUserInfo(name){
+
+    let body = { name }
+    const request = axios.post('/api/users/changeinfo', body)
+    .then(response => response.data)
+
+    return {
+        type: CHANGE_USER_INFO,
         payload: request
     }
 }

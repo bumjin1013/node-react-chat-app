@@ -73,7 +73,7 @@ router.post("/changeinfo", auth, (req, res) => {
 
     User.findOneAndUpdate({ _id: req.user._id },{
         "$set": {
-            "nickname": req.body.nickname
+            "name": req.body.name
     }},{ new: true },
     (err, doc) => {
         if (err) return res.status(400).json({ success: false, err })
