@@ -21,17 +21,6 @@ function LandingPage(props) {
                     />
                    
                 </TabPane>
-                <TabPane tab={<Icon type='message' style={{ fontSize: '20px'}}/>} key="2">
-                    <Alert
-                        message="로그인이 필요합니다"
-                        description={<Button type="primary" onClick={() => {props.history.push('/login')}}>로그인</Button>}
-                        type="info"
-                        showIcon
-                        style={{textAlign:'center'}}
-                        
-                    />
-                </TabPane>
-   
             </Tabs>
         </div>
     )
